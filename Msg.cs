@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Msg<TMsgId> where TMsgId : Enum
+public class Msg
 {
-    private static Dictionary<TMsgId, Dictionary<int, List<Action<object[]>>>> messages = new ();
+    private static Dictionary<int, Dictionary<int, List<Action<object[]>>>> messages = new ();
 
     public static void Init() {
         messages = new();
     }
 
-    public static void Bind(TMsgId name, Action<object[]> f, int id = -1)
+    public static void Bind(int name, Action<object[]> f, int id = -1)
     {
         if (!messages.ContainsKey(name))
             messages[name] = new Dictionary<int, List<Action<object[]>>>();
@@ -22,7 +22,7 @@ public class Msg<TMsgId> where TMsgId : Enum
         messages[name][id].Add(f);
     }
 
-    public static void UnBind(TMsgId name, Action<object[]> f, int id = -1)
+    public static void UnBind(int name, Action<object[]> f, int id = -1)
     {
         if (!messages.ContainsKey(name)) return;
         if (!messages[name].ContainsKey(id)) return;
@@ -33,7 +33,7 @@ public class Msg<TMsgId> where TMsgId : Enum
             messages[name][id].Clear();
     }
 
-    public static void UnBind(TMsgId name, int id = -1)
+    public static void UnBind(int name, int id = -1)
     {
         if (!messages.ContainsKey(name)) return;
         if (!messages[name].ContainsKey(id)) return;
@@ -41,7 +41,7 @@ public class Msg<TMsgId> where TMsgId : Enum
         messages[name][id].Clear();
     }
 
-    public static void Dispatch(TMsgId name, object[] param = null)
+    public static void Dispatch(int name, object[] param = null)
     {
         if (!messages.ContainsKey(name))
             return;
