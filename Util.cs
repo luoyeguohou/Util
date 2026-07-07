@@ -159,6 +159,11 @@ class Util
         Array.Sort(des);
         return des[des.Length - 1];
     }
+
+    public static bool SameList<T>(List<T> lstA, List<T> lstB)
+    {
+        return lstA.Count == lstB.Count && All(lstA, (T a) => lstB.Contains(a));
+    }
 }
 
 public static class ListExtensions
