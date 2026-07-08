@@ -46,7 +46,11 @@ public class Msg
         if (!messages.ContainsKey(name))
             return;
 
+        List<Action<object[]>> listeners = new();
         foreach (KeyValuePair<int, List<Action<object[]>>> itemKV in messages[name])
-            itemKV.Value.ForEach((Action<object[]> f) => f(param));
+            listeners.AddRange(itemKV.Value);
+
+        foreach (Action<object[]> f in listeners)
+            f(param);
     }
 }
