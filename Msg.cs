@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Msg
@@ -43,6 +44,12 @@ public class Msg
 
     public static void Dispatch(int name, object[] param = null)
     {
+        if (SimulationUtil.IsSimulating)
+        {
+            CompletePendingTaskCompletionSources(param);
+            return;
+        }
+
         if (!messages.ContainsKey(name))
             return;
 
@@ -52,5 +59,17 @@ public class Msg
 
         foreach (Action<object[]> f in listeners)
             f(param);
+    }
+
+    private static void CompletePendingTaskCompletionSources(object[] param)
+    {
+        if (param == null)
+            return;
+
+        foreach (object arg in param)
+        {
+            if (arg is TaskCompletionSource<bool> tcs)
+                tcs.TrySetResult(true);
+        }
     }
 }
