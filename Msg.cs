@@ -44,7 +44,7 @@ public class Msg
 
     public static void Dispatch(int name, object[] param = null)
     {
-        if (SimulationUtil.IsSimulating)
+        if (HeadlessMode.IsActive)
         {
             CompletePendingTaskCompletionSources(param);
             return;

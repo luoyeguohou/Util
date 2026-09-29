@@ -151,28 +151,6 @@ class Util
         return cnt;
     }
 
-    public static int SetBit(int num, int pos)
-    {
-        return num | (1 << pos);
-    }
-
-    public static int GetMax(int[] vals)
-    {
-        int[] des = new int[vals.Length];
-        Array.Copy(vals, des, vals.Length);
-        Array.Sort(des);
-        return des[des.Length-1];
-    }
-
-    public static int GetSecondMax(int[] vals)
-    {
-        if (vals.Length == 1) return vals[0];
-        int[] des = new int[vals.Length];
-        Array.Copy(vals, des, vals.Length);
-        Array.Sort(des);
-        return des[des.Length - 2];
-    }
-
     public static bool SameList<T>(List<T> lstA, List<T> lstB)
     {
         return lstA.Count == lstB.Count && All(lstA, (T a) => lstB.Contains(a));
